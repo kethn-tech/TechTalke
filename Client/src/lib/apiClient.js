@@ -6,13 +6,13 @@ const getToken = () => {
 };
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:4000',
+  baseURL: import.meta.env.VITE_APP_SERVER_URL,
   withCredentials: true, // This sends cookies
   headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    "Content-Type": "application/json",
+    Accept: "application/json",
   },
-  timeout: 10000
+  timeout: 10000,
 });
 
 // Add auth token to requests if available

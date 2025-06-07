@@ -96,10 +96,14 @@ const Auth = () => {
   };
 
   const handleGithubLogin = () => {
-    window.location.href = "http://localhost:4000/api/auth/github";
+    window.location.href = `${
+      import.meta.env.VITE_APP_SERVER_URL
+    }/api/auth/github`;
   };
   const handleLinkedinLogin = () => {
-    window.location.href = "http://localhost:4000/api/auth/linkedin";
+    window.location.href = `${
+      import.meta.env.VITE_APP_SERVER_URL
+    }/api/auth/linkedin`;
   };
 
   return (
