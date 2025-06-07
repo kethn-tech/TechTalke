@@ -21,12 +21,14 @@ app.use(cookieParser());
 
 // Configure CORS with specific settings
 const corsOptions = {
-  origin: [
-    "https://techtalke.vercel.app", // Add your Vercel frontend
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "http://localhost:5174",
-  ], // Allow all origins during development
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, etc.) or from allowed origins
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
   allowedHeaders: [
@@ -37,6 +39,8 @@ const corsOptions = {
     "Cookie",
   ],
 };
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
   
   app.use(cors(corsOptions));
 
@@ -54,17 +58,17 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // Add headers to all responses to ensure CORS works properly
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (origin === 'http://localhost:3000' || origin === 'http://localhost:5173' || origin === 'http://localhost:5174') {
-        res.header('Access-Control-Allow-Origin', origin);
-    }
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Cookie, Set-Cookie');
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Expose-Headers', 'Set-Cookie');
-    next();
-});
+// app.use((req, res, next) => {
+//     const origin = req.headers.origin;
+//     if (origin === 'http://localhost:3000' || origin === 'http://localhost:5173' || origin === 'http://localhost:5174') {
+//         res.header('Access-Control-Allow-Origin', origin);
+//     }
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Cookie, Set-Cookie');
+//     res.header('Access-Control-Allow-Credentials', true);
+//     res.header('Access-Control-Expose-Headers', 'Set-Cookie');
+//     next();
+// });
 
 app.use('/api/auth', AuthRoute);
 app.use('/api', profileRoute);

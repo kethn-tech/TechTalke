@@ -20,13 +20,13 @@ const signUp = async (req, res) => {
     );
 
     // Set cookie with appropriate settings for development
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days in milliseconds
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 3 * 24 * 60 * 60 * 1000,
     });
-
     return res.status(201).json({
       user: data,
     });
@@ -69,13 +69,13 @@ const logIn = async (req, res) => {
     );
 
     // Set cookie with appropriate settings for development
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days in milliseconds
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 3 * 24 * 60 * 60 * 1000,
     });
-
     return res.status(200).json({
       user: data,
     });
@@ -112,10 +112,13 @@ const getUserInfo = async (req, res, next) => {
 
 const logOut = async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      path: "/", // Important: must match the path used when setting the cookie
     });
 
     return res.status(200).json({
@@ -127,6 +130,7 @@ const logOut = async (req, res) => {
     });
   }
 };
+
 const githubAuth = (req, res) => {
   const redirectUri = encodeURIComponent(
     "https://techtalke-production.up.railway.app/api/auth/github/callback"
@@ -185,10 +189,11 @@ const githubCallback = async (req, res) => {
     );
 
     // Set cookie and redirect to frontend (adjust URL as needed)
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 
@@ -262,10 +267,11 @@ const linkedinCallback = async (req, res) => {
     );
 
     // Set cookie and redirect to frontend
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 
