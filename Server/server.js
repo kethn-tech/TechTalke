@@ -60,6 +60,9 @@ app.use('/api', profileRoute);
 app.use('/api/contact', ContactRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/admin', adminRoutes);
+app.get("/", (req, res) => {
+  res.send("TechTalke API is running!");
+});
 
 const server = http.createServer(app);
 setupSocket(server);
