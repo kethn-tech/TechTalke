@@ -21,11 +21,22 @@ app.use(cookieParser());
 
 // Configure CORS with specific settings
 const corsOptions = {
-    origin: true, // Allow all origins during development
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Cookie']
-  };
+  origin: [
+    "https://techtalke.vercel.app", // Add your Vercel frontend
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:5174",
+  ], // Allow all origins during development
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Cookie",
+  ],
+};
   
   app.use(cors(corsOptions));
 

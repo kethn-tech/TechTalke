@@ -7,6 +7,7 @@ const setupSocket = (server) => {
     cors: {
       // Update CORS configuration to include localhost:5174
       origin: [
+        "https://techtalke.vercel.app", // Add your Vercel frontend
         "http://localhost:3000",
         "http://localhost:5173",
         "http://localhost:5174",

@@ -129,7 +129,7 @@ const logOut = async (req, res) => {
 };
 const githubAuth = (req, res) => {
   const redirectUri = encodeURIComponent(
-    "http://localhost:4000/api/auth/github/callback"
+    "https://techtalke-production.up.railway.app/api/auth/github/callback"
   );
   const clientId = process.env.GITHUB_CLIENT_ID;
   const githubUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
@@ -193,7 +193,7 @@ const githubCallback = async (req, res) => {
     });
 
     // Redirect to your frontend app (adjust URL as needed)
-    res.redirect("http://localhost:5173/auth/"); // or /dashboard, etc.
+    res.redirect("https://techtalke.vercel.app/auth/"); // or /dashboard, etc.
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "GitHub OAuth failed" });
@@ -203,7 +203,7 @@ const githubCallback = async (req, res) => {
 // Step 1: Redirect to LinkedIn OAuth
 const linkedinAuth = (req, res) => {
   const redirectUri = encodeURIComponent(
-    "http://localhost:4000/api/auth/linkedin/callback"
+    "https://techtalke-production.up.railway.app/api/auth/linkedin/callback"
   );
   const clientId = process.env.LINKEDIN_CLIENT_ID;
   const state = "randomstatestring"; // For CSRF protection, use a real random string in production
@@ -269,7 +269,7 @@ const linkedinCallback = async (req, res) => {
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect("http://localhost:5173/"); // Or your frontend dashboard
+    res.redirect("https://techtalke.vercel.app/auth/"); // Or your frontend dashboard
   } catch (err) {
     console.error(
       "LinkedIn OAuth error:",
