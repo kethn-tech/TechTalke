@@ -21,32 +21,25 @@ app.use(cookieParser());
 
 // Configure CORS with specific settings
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, etc.) or from allowed origins
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: [
+    "https://techtalke.vercel.app", // Your deployed frontend
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:5174"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
   allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "X-Requested-With",
-    "Accept",
-    "Cookie",
-  ],
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'Accept',
+    'Cookie'
+  ]
 };
+
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-  
-  app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions));
-
+app.options('*', cors(corsOptions)); // Handles preflight for all routes
 // Fix the static file serving
 app.use("/uploads/profile-images", express.static(path.join(__dirname, "uploads/profile-images")));
 
