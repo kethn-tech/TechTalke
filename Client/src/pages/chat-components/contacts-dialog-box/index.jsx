@@ -25,13 +25,6 @@ const DmDialog = ({ open, onOpenChange, onSelectContact }) => {
       );
       if (response.status === 200 && response.data.contacts) {
         setSearchedContacts(response.data.contacts);
-
-        const newContacts = response.data.contacts.filter(
-          (contact) => !dmContacts.find((dm) => dm._id === contact._id)
-        );
-        if (newContacts.length > 0) {
-          setDmContacts([...newContacts, ...dmContacts]);
-        }
       }
     } catch (error) {
       console.error(error);
